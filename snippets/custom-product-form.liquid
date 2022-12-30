@@ -1,0 +1,77 @@
+<variant-details>
+  {%- unless product.has_only_default_variant -%}
+    {%- for option in product.options_with_values -%}
+      {%- if section.settings.product_selector == 'radio' -%}
+        <fieldset  id="ProductSelect-option-{{ forloop.index0 }}" name="{{ option.name | handleize }}">
+          <legend>
+            {{ option.name | escape }}
+          </legend>
+          {%- for value in option.values -%}
+            {%- if product.options.size == 1 -%}
+              {%- unless product.variants[forloop.index0].available -%}
+              {%- endunless -%}
+            {%- endif -%}
+            <input
+              option-data
+              type="radio"
+              dataindex="{{ forloop.index0 }}"
+              {% if option.selected_value == value %}
+                checked="checked"
+              {% endif %}
+             
+              value="{{ value | escape }}"
+              data-index="option{{ forloop.index }}"
+              name="{{ option.name | handleize }}"
+              id="{{ value | escape }}"
+              
+            >
+              <label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}">
+                {{ value | escape }}
+              </label>
+            {%- endfor -%}
+            <div class="product-variants infiniteoptions">
+              {% for option in product.options_with_values %}
+                {% for variant in product.variants %}
+                    <input 
+                    master-variant  
+                    value="{{ variant.id }}"
+                    name="{{ variant.title | escape }}">
+                  {% endfor %}
+                </div>
+              {% endfor %}
+          </fieldset>
+          
+          {%- elsif section.settings.product_selector == 'select'  -%}
+          <label for="ProductSelect-option-{{ forloop.index0 }}">
+            {{ option.name | escape }}
+          </label>
+          <!-- master variant selector -->
+          <select select_variants product_id="{{ product.id }}" id="product-select" class="master-selector" name="id">
+            {% for variant in product.variants %}
+              <option
+                value="{{ variant.id }}"
+                variant-id="{{ variant.id }}"
+                data-indexno="{{ forloop.index0 }}"
+                {% if variant == product.selected_or_first_available_variant %}
+                  selected="selected"
+                {% endif %}
+              >
+                {{ variant.title }}
+              </option>
+            {% endfor %}
+          </select>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endunless -%}
+    <div quantity-box data-qty-container class="input_box_quickview mb-4" data-qty-container>
+      <a class="counter_button" quantity-box="minus" data-qty-btn>-</a>
+      <input class="input_box_quickview" data-index="1" data-qty-input data-value type="number" value="1">
+      <a class="counter_button" quantity-box="increase" data-qty-btn>+</a>
+    </div>
+    <div class="col-12 d-flex">
+    <button variant_id="{{ current_variant.id }}" ajaxcart class="btn btn-outline-dark btn-sm flex-grow-1" id="add_cart">Add cart </button>
+    </div>
+  </variant-details>
+  <script id="product-variant-json" type="application/json">
+    {{ product | json }}
+  </script>
