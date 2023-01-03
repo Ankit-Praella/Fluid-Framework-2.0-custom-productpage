@@ -44,7 +44,7 @@
         "849060e4-89ba-4703-877d-d55e26313a29"
       ],
       "settings": {
-        "products_per_page": 16,
+        "products_per_page": 8,
         "product_per_row": "4",
         "pagination_type": "numbers",
         "enable_sub_collections": true,
