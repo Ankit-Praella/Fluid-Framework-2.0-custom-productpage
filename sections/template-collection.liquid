@@ -69,6 +69,8 @@
                                 {% elsif section.settings.pagination_type == 'numbers' %}
                                 {% render 'pagination', paginate: paginate , product_count : product_count %}
                                 {% endif %}
+                              	<p class="pagesEnd">{{ paginate.pages }}</p>
+
                                 </div>
                             </div>
                         {% endif %}
